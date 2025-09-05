@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Advanced search</title>
+    <style>
+
+        h2{
+            border-bottom:  1px solid rgb(197, 195, 195);
+            margin: 0px;
+            padding-top: 60px;
+            padding-left: 40px;
+            justify-self: end;
+            padding-bottom: 20px;
+        }
+
+        form{
+            display: flex;
+            align-items: start;
+            padding-left: 40px;
+        }
+
+        form div{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            color: black ;
+            width: 100%;
+            max-width: 600px;
+            flex: 0 1 auto;
+        }
+
+        form div input{
+            background-color:white ;
+            width: 400px;
+            height: 25px;
+            border: 1px solid gray;
+            outline: 1px rgb(143, 213, 235);
+        }
+
+    </style>
+</head>
+<body>
+     <img src="./Google_2015_logo.svg.png"  alt="google_title" class="title" height="17" width="50" style="margin:0px" style="display: inline;">
+    <div class="top_page">
+        <a href="index.html">Google home</a>
+    </div>
+    <h2 style="color:red"> Advanced Search </h2>
+    <form action="https://www.google.com/search">
+        <h3 style="color:black">Find pages with...</h3>
+        <div><label for="allWords">all these words:</label><input  id="allWords"type="text" name="as_q"></div>
+        <div><label for="exactWords">this exact word or phrase:</label><input id="exactWords" type="text" name="as_epq"></div>
+        <div><label for="anyWords">any of these words:</label><input id="anyWords" type="text" name="as_oq"></div>
+        <div><label for="noneWords">none of these words:</label><input id="noneWords" type="text" name="as_eq"></div>
+       <input class="submit_button advanced" type="submit" value="Advanced Search" style="background-color: rgb(12, 88, 240); color: white ; border-radius:5px; padding: 5px; margin-left: 480px;">
+    </form> 
+</body>
+</html>

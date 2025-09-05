@@ -1,0 +1,64 @@
+body{
+    display: flex;
+    flex-direction: column;
+}
+
+a{
+    text-decoration: none;
+    color: black;
+    padding-left: 10px;
+}
+
+.title{
+    text-align: center;
+    margin: auto;
+    margin-top: 160px;
+    margin-bottom: 30px;
+}
+
+.search_box{
+    border-radius: 45px;
+    background-color: white;
+    border: 1px solid rgb(203, 201, 201);
+    outline: none;
+    padding: 20px;
+    color: black;
+    margin-bottom: 30px;
+    width: 600px;
+    box-shadow: 5px 3px 5px rgb(62, 70, 73);
+}
+
+.submit_button{
+    background-color:rgb(225, 225, 255);
+    color: black;
+    padding: 15px;
+    border: none;
+    outline: none;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.top_page{
+    flex: 1;
+    text-align: end;
+}
+
+
+form{
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+}
+
+
+a:hover{
+    text-decoration: underline;
+}
+
+.search_box:hover{
+    box-shadow: 10px;
+}
+
+.submit_button:hover{
+    border: 1px solid black;
+}
