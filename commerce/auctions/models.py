@@ -9,11 +9,15 @@ class Auction_listings(models.Model):
     pass
 
 class Bids(models.Model):
-    bidder_id = models.ForeignKey(User, on_delete=models.CASCADE, related_name="bidder")
+    bidder = models.ForeignKey(User, on_delete=models.CASCADE, related_name="bidder")
     bid_amount = models.IntegerField()
 
     def __str__(self):
         return f"Bid {self.id} from {self.bidder_id.username} is ${self.bid_amount}"
 
 class Comments(models.Model):
-    pass    
+    commentor = models.ForeignKey(User, on_delete=models.CASCADE, related_name="commentor")
+    comment = models.TextField()
+
+    def __str__(self):
+        return f"Comment {self.id} from {self.commentor.username} is : {self.comment}"
