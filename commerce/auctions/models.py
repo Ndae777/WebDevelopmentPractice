@@ -11,7 +11,7 @@ class Auction_listings(models.Model):
     start_bid = models.IntegerField()
     owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="selling")
     image_url = models.URLField(blank=True, null=True)
-    category = models.CharField
+    category = models.CharField(max_length=64)
 
     def __str__(self):
         return f"{self.item_name} ({self.description}) is being sold at min : $ {self.start_bid} by {self.owner}"

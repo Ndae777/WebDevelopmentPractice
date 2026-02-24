@@ -71,6 +71,7 @@ class CreateListing(forms.Form):
     category = forms.CharField(label = "Catagory: ")
 
 def create_listing(request):
+    
     return render(request, "auctions/create_listing.html", {
         "form" : CreateListing(),
     })

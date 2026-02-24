@@ -3,11 +3,15 @@
 {% block title %} Create Listing {% endblock %}
 
 {% block body %}
-<h1>Create Listing </h1>
+<h1>Add Listing </h1>
 
 <form action="{% url 'create_listing' %}" method="post">
     {% csrf_token %}
-    {{ form }}
+    <div class="form_title"> Title : {{form.title}}</div>
+    <div class="form_starting_bid"> Starting bid : {{ form.starting_bid }}</div>
+    <div class="form_image_url">Image url(optional): {{ form.image_url }}</div>
+    <div class="form_category">Category : {{ form.category }} </div>
+    <div class="form_description">Description :<br> {{ form.description }}</div>
     <input type="submit">
 </form>
 
