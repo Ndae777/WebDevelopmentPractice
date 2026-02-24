@@ -64,11 +64,11 @@ def register(request):
         return render(request, "auctions/register.html")
 
 class CreateListing(forms.Form):
-    title = forms.CharField(label="Title of Listing: ",max_length=100)
-    description = forms.CharField(label="Description", widget=forms.Textarea)
-    starting_bid = forms.IntegerField(label="Starting Bid($): ")
-    image_url = forms.URLField(label="Image URL", required=False)
-    category = forms.CharField(label = "Catagory: ")
+    title = forms.CharField(max_length=100)
+    description = forms.CharField(widget=forms.Textarea)
+    starting_bid = forms.IntegerField()
+    image_url = forms.URLField(required=False)
+    category = forms.CharField(max_length=64)
 
 def create_listing(request):
     
