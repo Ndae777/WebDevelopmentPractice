@@ -71,18 +71,21 @@ class CreateListing(forms.Form):
     category = forms.CharField(max_length=64)
 
 def create_listing(request):
+
     if request.method == "POST":
         form = CreateListing(request.POST)
         if form.is_valid():
-            Auction_listings.objects.create(
-                item_name = form.cleaned_data["tile"],
+           auction_listing = Auction_listings(
+                item_name = form.cleaned_data["title"],
                 description = form.cleaned_data["description"],
                 start_bid = form.cleaned_data["starting_bid"],
                 owner = request.user , 
                 image_url = form.cleaned_data["image_url"],
                 category = form.cleaned_data["category"]
-                
             )
+           
+           auction_listing.save()
+           return HttpResponseRedirect(reverse("index"))
 
 
     
