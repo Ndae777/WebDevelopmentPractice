@@ -71,6 +71,8 @@ class CreateListing(forms.Form):
     category = forms.CharField(max_length=64)
 
 def create_listing(request):
+    if request.method == "POST":
+        pass
     
     return render(request, "auctions/create_listing.html", {
         "form" : CreateListing(),
