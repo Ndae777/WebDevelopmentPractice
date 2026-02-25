@@ -72,7 +72,19 @@ class CreateListing(forms.Form):
 
 def create_listing(request):
     if request.method == "POST":
-        pass
+        form = CreateListing(request.POST)
+        if form.is_valid():
+            Auction_listings.objects.create(
+                item_name = form.cleaned_data["tile"],
+                description = form.cleaned_data["description"],
+                start_bid = form.cleaned_data["starting_bid"],
+                owner = request.user , 
+                image_url = form.cleaned_data["image_url"],
+                category = form.cleaned_data["category"]
+                
+            )
+
+
     
     return render(request, "auctions/create_listing.html", {
         "form" : CreateListing(),
