@@ -1,7 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
-
 class User(AbstractUser):
     pass
 
@@ -14,7 +13,7 @@ class Auction_listing(models.Model):
     category = models.CharField(max_length=64)
 
     def __str__(self):
-        return f"{self.item_name} ({self.description}) is being sold at min : $ {self.start_bid} by {self.owner}"
+        return f"{self.owner} is selling {self.item_name} starting at ${self.start_bid}."
 
 class Bid(models.Model):
     bidder = models.ForeignKey(User, on_delete=models.CASCADE, related_name="biddings")
@@ -22,7 +21,7 @@ class Bid(models.Model):
     bid_amount = models.IntegerField()
 
     def __str__(self):
-        return f"Bid {self.id} from {self.bidder.username} is ${self.bid_amount}"
+        return f"Bid ({self.id}) from {self.bidder.username} is: ${self.bid_amount}"
 
 class Comment(models.Model):
     item = models.ForeignKey(Auction_listing, on_delete=models.CASCADE, related_name="comments")
@@ -30,4 +29,4 @@ class Comment(models.Model):
     comment = models.TextField()
 
     def __str__(self):
-        return f"Comment {self.id} from {self.commentor.username} is : {self.comment}"
+        return f"Comment ({self.id}) from {self.commentor.username} is : \n{self.comment}"
