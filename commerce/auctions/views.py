@@ -8,8 +8,19 @@ from django import forms
 from .models import User, Auction_listing, Bid, Comment
 
 
+class CreateListing(forms.Form):
+    title = forms.CharField(max_length=100)
+    description = forms.CharField(widget=forms.Textarea)
+    starting_bid = forms.IntegerField()
+    image_url = forms.URLField(required=False) #making it optional 
+    category = forms.CharField(max_length=64)
+    active = forms.BooleanField(required=False) #helps for form to start as false
+
 def index(request):
-    return render(request, "auctions/index.html")
+    auction_listing = Auction_listing.objects.all() #auction listing table 
+    return render(request, "auctions/index.html", {
+        "Auction_listings" : auction_listing, 
+    })
 
 
 def login_view(request):
@@ -63,13 +74,6 @@ def register(request):
     else:
         return render(request, "auctions/register.html")
 
-class CreateListing(forms.Form):
-    title = forms.CharField(max_length=100)
-    description = forms.CharField(widget=forms.Textarea)
-    starting_bid = forms.IntegerField()
-    image_url = forms.URLField(required=False) #making it optional 
-    category = forms.CharField(max_length=64)
-    active = forms.BooleanField(required=False) #helps for form to start as false
 
 def create_listing(request):
 
@@ -88,8 +92,6 @@ def create_listing(request):
            
            auction_listing.save()
            return HttpResponseRedirect(reverse("index"))
-
-
     
     return render(request, "auctions/create_listing.html", {
         "form" : CreateListing(),
