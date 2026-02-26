@@ -5,7 +5,7 @@ from django.shortcuts import render
 from django.urls import reverse
 from django import forms
 
-from .models import User, Auction_listings, Bids, Comments
+from .models import User, Auction_listing, Bid, Comment
 
 
 def index(request):
@@ -75,7 +75,7 @@ def create_listing(request):
     if request.method == "POST":
         form = CreateListing(request.POST)
         if form.is_valid():
-           auction_listing = Auction_listings(
+           auction_listing = Auction_listing(
                 item_name = form.cleaned_data["title"],
                 description = form.cleaned_data["description"],
                 start_bid = form.cleaned_data["starting_bid"],

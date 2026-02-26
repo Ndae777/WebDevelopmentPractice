@@ -5,7 +5,7 @@ from django.db import models
 class User(AbstractUser):
     pass
 
-class Auction_listings(models.Model):
+class Auction_listing(models.Model):
     item_name = models.CharField(max_length=64)
     description = models.TextField()
     start_bid = models.IntegerField()
@@ -16,16 +16,16 @@ class Auction_listings(models.Model):
     def __str__(self):
         return f"{self.item_name} ({self.description}) is being sold at min : $ {self.start_bid} by {self.owner}"
 
-class Bids(models.Model):
+class Bid(models.Model):
     bidder = models.ForeignKey(User, on_delete=models.CASCADE, related_name="biddings")
-    item = models.ForeignKey(Auction_listings, on_delete=models.CASCADE, related_name="bids")
+    item = models.ForeignKey(Auction_listing, on_delete=models.CASCADE, related_name="bids")
     bid_amount = models.IntegerField()
 
     def __str__(self):
         return f"Bid {self.id} from {self.bidder.username} is ${self.bid_amount}"
 
-class Comments(models.Model):
-    item = models.ForeignKey(Auction_listings, on_delete=models.CASCADE, related_name="comments")
+class Comment(models.Model):
+    item = models.ForeignKey(Auction_listing, on_delete=models.CASCADE, related_name="comments")
     commentor = models.ForeignKey(User, on_delete=models.CASCADE, related_name="comment_made")
     comment = models.TextField()
 
