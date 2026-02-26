@@ -67,8 +67,9 @@ class CreateListing(forms.Form):
     title = forms.CharField(max_length=100)
     description = forms.CharField(widget=forms.Textarea)
     starting_bid = forms.IntegerField()
-    image_url = forms.URLField(required=False)
+    image_url = forms.URLField(required=False) #making it optional 
     category = forms.CharField(max_length=64)
+    active = forms.BooleanField(required=False) #helps for form to start as false
 
 def create_listing(request):
 
@@ -81,7 +82,8 @@ def create_listing(request):
                 start_bid = form.cleaned_data["starting_bid"],
                 owner = request.user , 
                 image_url = form.cleaned_data["image_url"],
-                category = form.cleaned_data["category"]
+                category = form.cleaned_data["category"],
+                active = form.cleaned_data["active"]
             )
            
            auction_listing.save()
