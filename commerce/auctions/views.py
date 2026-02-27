@@ -96,3 +96,9 @@ def create_listing(request):
     return render(request, "auctions/create_listing.html", {
         "form" : CreateListing(),
     })
+
+def listing_page(request):
+    auction_listing = Auction_listing.objects.all()
+    return render(request, "auctions/listing_page.html", {
+        "auction_listing" : auction_listing
+    })
