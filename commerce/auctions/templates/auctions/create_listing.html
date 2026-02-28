@@ -5,7 +5,7 @@
 {% block body %}
 <h1>Add Listing </h1>
 
-<form class="form" action="{% url 'create_listing' %}" method="post">
+<form class="form" action="{% url 'create_listing' %}" method="post"> <!-- when click the user is gonna be directed to listing/id_number  -->
     {% csrf_token %}
     <div class="form_title"> Title : {{form.title}}</div>
     <div class="form_starting_bid"> Starting bid : {{ form.starting_bid }}</div>

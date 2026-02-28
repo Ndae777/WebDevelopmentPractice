@@ -31,3 +31,10 @@ class Comment(models.Model):
 
     def __str__(self):
         return f"Comment ({self.id}) from {self.commentor.username} is : \n{self.comment}"
+    
+class WatchList(models.Model):
+    watchlist_owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="watchlist_items")
+    item = models.ForeignKey(Auction_listing,on_delete=models.CASCADE,related_name="watchlist_by" )
+
+    def __str__(self):
+        return f"Watchlist [{self.id}] belongs to owner_id[{self.watchlist_owner}] for item_id [{self.item}]"

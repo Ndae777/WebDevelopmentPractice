@@ -4,7 +4,7 @@
     <h2>Active Listings</h2>
     {% for record in Auction_listings %}
         {% if record.active == True %}
-        <a href="{% url 'listing_page' %}">
+        <a href="{% url 'listing_page' record.id %}">
             <h3>{{ record.item_name.capitalize }}</h3>
             <img src="{{ record.image_url }}" alt="{{ record.item_name }}">
             <div><strong>Seller: </strong>{{ record.owner.username.capitalize }}</div>  <!--to capitalize directly the name of the owner for display purposes -->
