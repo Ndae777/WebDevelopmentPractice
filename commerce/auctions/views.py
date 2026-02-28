@@ -5,8 +5,8 @@ from django.shortcuts import render
 from django.urls import reverse
 from django import forms
 
-from .models import User, Auction_listing, Bid, Comment
-
+from .models import User, Auction_listing, Bid, Comment , WatchList
+from django.contrib.auth.decorators import login_required
 
 class CreateListing(forms.Form):
     title = forms.CharField(max_length=100)
@@ -96,9 +96,20 @@ def create_listing(request):
     return render(request, "auctions/create_listing.html", {
         "form" : CreateListing(),
     })
-
+    
+@login_required
 def listing_page(request, listing_id):
+
     auction_listing = Auction_listing.objects.get(id=listing_id)
+    watchlist = WatchList.objects.filter(watchlist_owner = request.user )
+    watchlist_array = []
+
+    for item in watchlist:
+        watchlist_array.append(item.item.item_name) #populate a list with item_name from WatchList Array
+
+
     return render(request, "auctions/listing_page.html", {
-        "auction_listing" : auction_listing
+        "auction_listing" : auction_listing,
+        "listing_id" : listing_id,
+        "watchlist" : watchlist_array
     })
