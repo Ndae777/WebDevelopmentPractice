@@ -101,15 +101,64 @@ def create_listing(request):
 def listing_page(request, listing_id):
 
     auction_listing = Auction_listing.objects.get(id=listing_id)
-    watchlist = WatchList.objects.filter(watchlist_owner = request.user )
-    watchlist_array = []
 
-    for item in watchlist:
-        watchlist_array.append(item.item.item_name) #populate a list with item_name from WatchList Array
+    
+    watchlist_present = WatchList.objects.filter(
+        watchlist_owner = request.user, 
+        item = auction_listing
+        ).exists() # returns true if the item and owner already in watchlist else false
+    
+    response_message  = "Nothing" #  message to display for user feedback. 
+    
+    if request.method == "POST":
 
+        if "watchlist_act" in request.POST:
+            if request.POST["watchlist_act"] == "Add to WatchList":
+                watchlist_to_save = WatchList(
+                    watchlist_owner = request.user,
+                    item = auction_listing,
+                )
 
+                watchlist_to_save.save()
+                return HttpResponseRedirect(reverse('index'))
+
+            elif request.POST["watchlist_act"] == "Remove from WatchList":
+                watchlist_to_delete = WatchList.objects.get(
+                    watchlist_owner= request.user,
+                    item= auction_listing,
+                )
+
+                watchlist_to_delete.delete()
+                return HttpResponseRedirect(reverse('index'))           
+            
+        if "Bid_submit" in request.POST:
+
+        #dealing with bid logic 
+            bid_amount = int(request.POST["bid"]) #fixed to convert it into a integer
+            highest_bid = auction_listing.start_bid 
+            bids_on_the_item = Bid.objects.filter(item=auction_listing)
+
+            for all_bids in bids_on_the_item:
+                if all_bids.bid_amount > highest_bid :
+                    highest_bid = all_bids.bid_amount #highest bid saved here
+
+            if bid_amount > highest_bid:
+                bid_saving = Bid(
+                    bidder = request.user,
+                    item = auction_listing,
+                    bid_amount = bid_amount,
+                )
+
+                bid_saving.save()
+                response_message = "Bid Successful."
+            else:
+                response_message  = f"Bid Unsuccessful, Bid a higher amount than ${highest_bid}. Current Bid too low"
+
+        
+    
     return render(request, "auctions/listing_page.html", {
         "auction_listing" : auction_listing,
         "listing_id" : listing_id,
-        "watchlist" : watchlist_array
+        "watchlist_present" : watchlist_present,
+        "success_message" : response_message,
     })

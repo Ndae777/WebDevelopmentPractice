@@ -37,4 +37,4 @@ class WatchList(models.Model):
     item = models.ForeignKey(Auction_listing,on_delete=models.CASCADE,related_name="watchlist_by" )
 
     def __str__(self):
-        return f"Watchlist [{self.id}] belongs to owner_id[{self.watchlist_owner}] for item_id [{self.item}]"
+        return f"Watchlist [{self.id}] : belongs to owner_{self.watchlist_owner} for Auction({self.item})"

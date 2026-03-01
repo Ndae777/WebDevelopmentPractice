@@ -16,12 +16,15 @@
 <br>
 <form action="{% url 'listing_page' listing_id=listing_id %}" method="post">
     {% csrf_token %}
-    {% if auction_listing.item_name in watchlist %}
-    <h1>Found</h1>
-    <input type="submit" value="Remove from WatchList" >
+    {% if watchlist_present %}
+    <input type="submit" name="watchlist_act" value="Remove from WatchList" >
     {% else %}
-    <h1>Not Found</h1>
-    <input type="submit" value="Add to WatchList" >
+    <input type="submit" name="watchlist_act" value="Add to WatchList" >
     {% endif %}
+    Enter bid : <input type="number" name="bid"> 
+    <input type="submit" name="Bid_submit" value="Submit bid">
 </form>
+
+<h3>{{ success_message }}</h3>
+
 {% endblock %}
