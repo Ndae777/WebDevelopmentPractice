@@ -21,10 +21,14 @@
     {% else %}
     <input type="submit" name="watchlist_act" value="Add to WatchList" >
     {% endif %}
-    Enter bid : <input type="number" name="bid"> 
+    Enter bid($): <input type="number" name="bid"> 
     <input type="submit" name="Bid_submit" value="Submit bid">
+    {% if close_ownership %}
+    <input type="submit" name="Close_bid" value="Close bid">
+    {% endif %}
 </form>
 
-<h3>{{ success_message }}</h3>
+<h5>{{ success_message }}</h5>
+
 
 {% endblock %}

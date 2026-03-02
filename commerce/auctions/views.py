@@ -109,9 +109,12 @@ def listing_page(request, listing_id):
         ).exists() # returns true if the item and owner already in watchlist else false
     
     response_message  = "Nothing" #  message to display for user feedback. 
+    close_ownership = False  # bool to see if there's ownership to closing bid
+    #close logic
+    if request.user == auction_listing.owner:
+        close_ownership = True
     
-    if request.method == "POST":
-
+    elif request.method == "POST":
         if "watchlist_act" in request.POST:
             if request.POST["watchlist_act"] == "Add to WatchList":
                 watchlist_to_save = WatchList(
@@ -153,7 +156,6 @@ def listing_page(request, listing_id):
                 response_message = "Bid Successful."
             else:
                 response_message  = f"Bid Unsuccessful, Bid a higher amount than ${highest_bid}. Current Bid too low"
-
         
     
     return render(request, "auctions/listing_page.html", {
@@ -161,4 +163,5 @@ def listing_page(request, listing_id):
         "listing_id" : listing_id,
         "watchlist_present" : watchlist_present,
         "success_message" : response_message,
+        "close_ownership": close_ownership
     })
