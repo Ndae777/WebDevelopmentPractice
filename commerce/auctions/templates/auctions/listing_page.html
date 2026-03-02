@@ -16,6 +16,9 @@
 <br>
 <form action="{% url 'listing_page' listing_id=listing_id %}" method="post">
     {% csrf_token %}
+    {% if close_ownership %}
+    <input type="submit" name="Close_bid" value="Close bid">
+    {% else %}
     {% if watchlist_present %}
     <input type="submit" name="watchlist_act" value="Remove from WatchList" >
     {% else %}
@@ -23,8 +26,6 @@
     {% endif %}
     Enter bid($): <input type="number" name="bid"> 
     <input type="submit" name="Bid_submit" value="Submit bid">
-    {% if close_ownership %}
-    <input type="submit" name="Close_bid" value="Close bid">
     {% endif %}
 </form>
 
