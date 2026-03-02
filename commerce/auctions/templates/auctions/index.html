@@ -3,7 +3,6 @@
 {% block body %}
     <h2>Active Listings</h2>
     {% for record in Auction_listings %}
-        {% if record.active == True %}
         <a href="{% url 'listing_page' record.id %}">
             <h3>{{ record.item_name.capitalize }}</h3>
             <img src="{{ record.image_url }}" alt="{{ record.item_name }}">
@@ -11,7 +10,6 @@
             <div><strong>Description </strong>: {{ record.description }}</div>
             <div><strong>Current Price</strong>: ${{ record.start_bid }}</div>
             <br>
-        </a>          
-        {% endif %}    
+        </a>              
     {% endfor %}
 {% endblock %}

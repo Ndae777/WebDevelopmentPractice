@@ -12,6 +12,7 @@ class Auction_listing(models.Model):
     image_url = models.URLField(blank=True, null=True)
     category = models.CharField(max_length=64)
     active = models.BooleanField(default=True)
+    winner = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name="bid_winner")
 
     def __str__(self):
         return f"{self.owner} is selling {self.item_name} starting at ${self.start_bid}."

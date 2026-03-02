@@ -157,6 +157,24 @@ def listing_page(request, listing_id):
             else:
                 response_message  = f"Bid Unsuccessful, Bid a higher amount than ${highest_bid}. Current Bid too low"
         
+        # dealing with close bid logic
+        if "Close_bid" in request.POST:
+
+            auction_listing.active = False
+            auction_listing.save()
+
+            bid_on_item = Bid.objects.filter(item = auction_listing)
+            highest_bid = None
+            highest_bid_amount = auction_listing.start_bid
+
+            for bids in bid_on_item:
+                if bids.bid_amount > highest_bid_amount:
+                    highest_bid_amount = bids.bid_amount
+                    highest_bid = bids
+
+            if highest_bid is not None:
+                auction_listing.winner = highest_bid.bidder
+        
     
     return render(request, "auctions/listing_page.html", {
         "auction_listing" : auction_listing,
