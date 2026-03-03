@@ -108,13 +108,13 @@ def listing_page(request, listing_id):
         item = auction_listing
         ).exists() # returns true if the item and owner already in watchlist else false
     
-    response_message  = "Nothing" #  message to display for user feedback. 
+    response_message  = "" #  message to display for user feedback. 
     close_ownership = False  # bool to see if there's ownership to closing bid
     #close logic
     if request.user == auction_listing.owner:
         close_ownership = True
     
-    elif request.method == "POST":
+    if request.method == "POST":
         if "watchlist_act" in request.POST:
             if request.POST["watchlist_act"] == "Add to WatchList":
                 watchlist_to_save = WatchList(
@@ -160,12 +160,9 @@ def listing_page(request, listing_id):
         # dealing with close bid logic
         if "Close_bid" in request.POST:
 
-            auction_listing.active = False
-            auction_listing.save()
-
-            bid_on_item = Bid.objects.filter(item = auction_listing)
-            highest_bid = None
-            highest_bid_amount = auction_listing.start_bid
+            bid_on_item = Bid.objects.filter(item = auction_listing) #all bids on that item
+            highest_bid = None #will store winner object
+            highest_bid_amount = auction_listing.start_bid #initial highest amount of bid
 
             for bids in bid_on_item:
                 if bids.bid_amount > highest_bid_amount:
@@ -174,6 +171,14 @@ def listing_page(request, listing_id):
 
             if highest_bid is not None:
                 auction_listing.winner = highest_bid.bidder
+
+            auction_listing.active = False
+            auction_listing.save()
+        
+        #Adding the ability to Reopen Bid
+        if "Open_Bid" in request.POST:
+            auction_listing.active = True
+            auction_listing.save()
         
     
     return render(request, "auctions/listing_page.html", {

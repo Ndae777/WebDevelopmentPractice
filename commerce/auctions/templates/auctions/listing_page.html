@@ -16,16 +16,24 @@
 <br>
 <form action="{% url 'listing_page' listing_id=listing_id %}" method="post">
     {% csrf_token %}
+
     {% if close_ownership %}
-    <input type="submit" name="Close_bid" value="Close bid">
+        <input type="submit" name="Close_bid" value="Close bid">
+        <input type="submit" name="Open_bid" value="Open bid">
+
     {% else %}
-    {% if watchlist_present %}
-    <input type="submit" name="watchlist_act" value="Remove from WatchList" >
-    {% else %}
-    <input type="submit" name="watchlist_act" value="Add to WatchList" >
-    {% endif %}
-    Enter bid($): <input type="number" name="bid"> 
-    <input type="submit" name="Bid_submit" value="Submit bid">
+        {% if auction_listing.active %}
+            Enter bid($): <input type="number" name="bid"> 
+            <input type="submit" name="Bid_submit" value="Submit bid">
+        {% else %}
+            <h5>Oops ...The bid is currently closed.</h5>
+        {% endif %} 
+
+        {% if watchlist_present %}
+            <input type="submit" name="watchlist_act" value="Remove from WatchList" >
+        {% else %}
+            <input type="submit" name="watchlist_act" value="Add to WatchList" >
+        {% endif %}
     {% endif %}
 </form>
 
