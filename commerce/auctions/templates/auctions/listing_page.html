@@ -9,24 +9,27 @@
 <div><strong>Current Price</strong>: ${{ auction_listing.start_bid }}</div>
 <div><strong>Category</strong>: {{ auction_listing.category }}</div>
 {% if auction_listing.active == True %}
-<div><strong>Availability:</strong>: Currently Available </div>
+<div><strong>Availability</strong>: Currently Available </div>
 {% else %}
-<div><strong>Availability:</strong>: Currently Unavailable </div>
+<div><strong>Availability</strong>: Currently Unavailable </div>
 {% endif %}
 <br>
 <form action="{% url 'listing_page' listing_id=listing_id %}" method="post">
     {% csrf_token %}
 
-    {% if close_ownership %}
-        <input type="submit" name="Close_bid" value="Close bid">
+    {% if close_ownership %} 
+        <!-- owner will get only the option to control their bid realistically -->
+        <input type="submit" name="Close_bid" value="Close bid"> 
         <input type="submit" name="Open_bid" value="Open bid">
-
     {% else %}
         {% if auction_listing.active %}
             Enter bid($): <input type="number" name="bid"> 
             <input type="submit" name="Bid_submit" value="Submit bid">
         {% else %}
-            <h5>Oops ...The bid is currently closed.</h5>
+            <h5>Oops ...The bid has been closed.</h5>
+            {% if winner_present %}
+            <h3>But You are the winner!</h3>
+            {% endif %}
         {% endif %} 
 
         {% if watchlist_present %}

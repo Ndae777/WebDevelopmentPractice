@@ -110,9 +110,14 @@ def listing_page(request, listing_id):
     
     response_message  = "" #  message to display for user feedback. 
     close_ownership = False  # bool to see if there's ownership to closing bid
+    winner_present = False # bool to check if this is the winner    
+    
     #close logic
     if request.user == auction_listing.owner:
         close_ownership = True
+
+    if request.user == auction_listing.winner:
+        winner_present = True 
     
     if request.method == "POST":
         if "watchlist_act" in request.POST:
@@ -155,7 +160,7 @@ def listing_page(request, listing_id):
                 bid_saving.save()
                 response_message = "Bid Successful."
             else:
-                response_message  = f"Bid Unsuccessful, Bid a higher amount than ${highest_bid}. Current Bid too low"
+                response_message  = f"Bid Unsuccessful, Bid a higher amount than the current ${highest_bid}.(Your Current Bid is low)"
         
         # dealing with close bid logic
         if "Close_bid" in request.POST:
@@ -176,9 +181,11 @@ def listing_page(request, listing_id):
             auction_listing.save()
         
         #Adding the ability to Reopen Bid
-        if "Open_Bid" in request.POST:
+        if "Open_bid" in request.POST:
             auction_listing.active = True
             auction_listing.save()
+
+        #dealing with comments on listing page
         
     
     return render(request, "auctions/listing_page.html", {
@@ -186,5 +193,7 @@ def listing_page(request, listing_id):
         "listing_id" : listing_id,
         "watchlist_present" : watchlist_present,
         "success_message" : response_message,
-        "close_ownership": close_ownership
+        "close_ownership": close_ownership,
+        "winner_present" : winner_present
     })
+
