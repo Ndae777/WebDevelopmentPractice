@@ -16,6 +16,9 @@ class CreateListing(forms.Form):
     category = forms.CharField(max_length=64)
     active = forms.BooleanField(required=False) #helps for form to start as false
 
+class Comment_on_page(forms.Form):
+    comment = forms.CharField(required=False) #will use this for comment logic 
+
 def index(request):
     auction_listing = Auction_listing.objects.all() #auction listing table 
     return render(request, "auctions/index.html", {
@@ -101,7 +104,7 @@ def create_listing(request):
 def listing_page(request, listing_id):
 
     auction_listing = Auction_listing.objects.get(id=listing_id)
-
+    all_comments = Comment.objects.filter(item = auction_listing)
     
     watchlist_present = WatchList.objects.filter(
         watchlist_owner = request.user, 
@@ -149,6 +152,7 @@ def listing_page(request, listing_id):
             for all_bids in bids_on_the_item:
                 if all_bids.bid_amount > highest_bid :
                     highest_bid = all_bids.bid_amount #highest bid saved here
+                    
 
             if bid_amount > highest_bid:
                 bid_saving = Bid(
@@ -186,7 +190,23 @@ def listing_page(request, listing_id):
             auction_listing.save()
 
         #dealing with comments on listing page
-        
+        if "Comment_submit" in request.POST:
+            comment = Comment_on_page(request.POST)
+            if comment.is_valid():
+                comment_save = Comment(
+                    item = auction_listing,
+                    commentor = request.user,
+                    comment = comment.cleaned_data["comment"]
+                )
+
+                comment_save.save()
+
+        #finding highest bid logic , forgot about this until now
+    current_price = auction_listing.start_bid #inital price but will be changed as highest bids update
+    item_bids = Bid.objects.filter(item = auction_listing)
+    for bids in item_bids:
+        if bids.bid_amount > current_price:
+            current_price = bids.bid_amount #current price will always be the highest bid
     
     return render(request, "auctions/listing_page.html", {
         "auction_listing" : auction_listing,
@@ -194,6 +214,35 @@ def listing_page(request, listing_id):
         "watchlist_present" : watchlist_present,
         "success_message" : response_message,
         "close_ownership": close_ownership,
-        "winner_present" : winner_present
+        "winner_present" : winner_present,
+        "form" : Comment_on_page(),
+        "all_comments" : all_comments,
+        "current_price" : current_price
+    })
+
+@login_required
+def watchlist(request):
+    user_watchlist = WatchList.objects.filter(watchlist_owner = request.user)
+    return render (request, "auctions/watchlist.html", {
+        "user_watchlist" : user_watchlist
+    })
+
+#dealing with category listings
+def categories(request):
+    auctions = Auction_listing.objects.all()
+    unique_auctions = []
+    for auction in auctions :
+        if auction.category not in unique_auctions:
+            unique_auctions.append(auction.category)
+
+    return render (request, "auctions/categories.html",{
+        "auctions" : auctions,
+        "auctions_list" : unique_auctions,
+    })
+
+def category_listings(request , category_name ):
+    listings = Auction_listing.objects.filter(category = category_name)
+    return render (request, "auctions/category_listing.html",{
+        "listings":listings
     })
 

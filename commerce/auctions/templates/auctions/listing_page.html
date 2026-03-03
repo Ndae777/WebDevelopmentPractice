@@ -6,7 +6,8 @@
 <div><strong>Seller: </strong>{{ auction_listing.owner.username.capitalize }}</div>
 
 <div><strong>Description </strong>: {{ auction_listing.description }}</div>
-<div><strong>Current Price</strong>: ${{ auction_listing.start_bid }}</div>
+<div><strong>Starting Price</strong>: ${{ auction_listing.start_bid }}</div>
+<div><strong>Current Price</strong>: ${{ current_price }}</div>
 <div><strong>Category</strong>: {{ auction_listing.category }}</div>
 {% if auction_listing.active == True %}
 <div><strong>Availability</strong>: Currently Available </div>
@@ -26,7 +27,7 @@
             Enter bid($): <input type="number" name="bid"> 
             <input type="submit" name="Bid_submit" value="Submit bid">
         {% else %}
-            <h5>Oops ...The bid has been closed.</h5>
+            <h5>The bid has been closed.</h5>
             {% if winner_present %}
             <h3>But You are the winner!</h3>
             {% endif %}
@@ -38,9 +39,22 @@
             <input type="submit" name="watchlist_act" value="Add to WatchList" >
         {% endif %}
     {% endif %}
-</form>
 
+    
+</form>
 <h5>{{ success_message }}</h5>
 
+<!-- dealing with comments -->
+<form action="{% url 'listing_page' listing_id=listing_id %}" method="post">
+    {% csrf_token %}
+    <div class="form comment">
+    Enter comment : {{ form.comment }}
+    <input type="submit" name="Comment_submit" value="Send" >
+    </div>
+</form>
 
+{% for comments in all_comments %}
+<br>
+<div class="Comment">{{ comments.commentor }} : {{ comments.comment }}</div>
+{% endfor %}
 {% endblock %}

@@ -1,0 +1,13 @@
+{% extends 'auctions/layout.html' %}
+
+{% block title %} Selcted Category {% endblock %}
+
+{% block body %}
+<h2>Currently Active Listings in this category</h2>
+{% for listing in listings %}
+{% if listing.active %}
+<a href="{% url 'listing_page' listing.id %}"><h3>{{ listing.item_name }}</h3></a>
+{% endif %}
+{% endfor %}
+
+{% endblock %}
