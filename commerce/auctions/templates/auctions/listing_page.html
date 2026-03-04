@@ -20,12 +20,12 @@
 
     {% if close_ownership %} 
         <!-- owner will get only the option to control their bid realistically -->
-        <input type="submit" name="Close_bid" value="Close bid"> 
-        <input type="submit" name="Open_bid" value="Open bid">
+        <input type="submit" name="Close_bid" value="Close bid" class="btn btn-outline-danger"> 
+        <input type="submit" name="Open_bid" value="Open bid" class="btn btn-outline-success">
     {% else %}
         {% if auction_listing.active %}
             Enter bid($): <input type="number" name="bid"> 
-            <input type="submit" name="Bid_submit" value="Submit bid">
+            <input type="submit" name="Bid_submit" value="Submit bid" class="btn">
         {% else %}
             <h5>The bid has been closed.</h5>
             {% if winner_present %}
@@ -34,9 +34,9 @@
         {% endif %} 
 
         {% if watchlist_present %}
-            <input type="submit" name="watchlist_act" value="Remove from WatchList" >
+            <input type="submit" name="watchlist_act" value="Remove from WatchList" class="btn">
         {% else %}
-            <input type="submit" name="watchlist_act" value="Add to WatchList" >
+            <input type="submit" name="watchlist_act" value="Add to WatchList" class="btn">
         {% endif %}
     {% endif %}
 
@@ -49,7 +49,7 @@
     {% csrf_token %}
     <div class="form comment">
     Enter comment : {{ form.comment }}
-    <input type="submit" name="Comment_submit" value="Send" >
+    <input type="submit" name="Comment_submit" value="Send" class="btn" >
     </div>
 </form>
 
