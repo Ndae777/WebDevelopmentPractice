@@ -1,11 +1,11 @@
 {% extends "auctions/layout.html" %}
 
 {% block body %}
-<h3>{{ auction_listing.item_name.capitalize }}</h3>
-<img src="{{ auction_listing.image_url }}" alt="{{ auction_listing.item_name }}">
-<div><strong>Seller: </strong>{{ auction_listing.owner.username.capitalize }}</div>
+<h3 class="body title">{{ auction_listing.item_name.capitalize }}</h3>
+<img class="listing imag" src="{{ auction_listing.image_url }}" alt="{{ auction_listing.item_name }}">
+<div class="description" ><strong>Seller: </strong>{{ auction_listing.owner.username.capitalize }}</div>
 
-<div><strong>Description </strong>: {{ auction_listing.description }}</div>
+<div ><strong>Description </strong>: {{ auction_listing.description }}</div>
 <div><strong>Starting Price</strong>: ${{ auction_listing.start_bid }}</div>
 <div><strong>Current Price</strong>: ${{ current_price }}</div>
 <div><strong>Category</strong>: {{ auction_listing.category }}</div>
