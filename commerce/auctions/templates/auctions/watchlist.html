@@ -4,15 +4,20 @@
 
 {% block body %}
 
-<h3>WatchList page</h3>
+<h3>Watchlist</h3>
+
+
 {% for watchlist in user_watchlist %}
-<h3><a href="{% url 'listing_page' watchlist.item.id %}"> 
-    Item : {{ watchlist.item.item_name }}
-    <br>
+<div class="watchlist_item">
+    <h3><a href="{% url 'listing_page' watchlist.item.id %}"> 
+    {{ watchlist.item.item_name }}
+    </a></h3>
     <img src="{{ watchlist.item.image_url }}" alt="{{ watchlist.item.item_name }}">
-</a></h3>
-<br>
-{% empty %}
-<h3>No added items to watchlist.</h3>
+    <br>
+    {% empty %}
+    <h3>No added items to watchlist.</h3>
+</div>
 {% endfor %}
+
+
 {% endblock %}

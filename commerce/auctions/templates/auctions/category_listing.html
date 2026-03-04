@@ -3,11 +3,13 @@
 {% block title %} Selcted Category {% endblock %}
 
 {% block body %}
-<h2>Currently Active Listings in this category</h2>
-{% for listing in listings %}
-{% if listing.active %}
-<a href="{% url 'listing_page' listing.id %}"><h3>{{ listing.item_name }}</h3></a>
-{% endif %}
+<div class="category_page">
+    <h2 class="category_title">Currently Active Listings in this category</h2>
+    {% for listing in listings %}
+    {% if listing.active %}
+    <a class="" href="{% url 'listing_page' listing.id %}"><h3>{{ listing.item_name }}</h3></a>
+    {% endif %}
+</div>
 {% endfor %}
 
 {% endblock %}

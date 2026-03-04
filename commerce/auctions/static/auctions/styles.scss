@@ -46,12 +46,13 @@ li a {
     display: flex;
     flex-direction: column;
     align-items:center;
-    width: 605px;
+    width: 400px;
     height: 300px;
+    background-color: rgb(47, 65, 22);
 
     h3{
         text-align: center;
-        border-bottom: 1px dashed greenyellow;
+        border-bottom: 1px dashed rgb(196, 233, 142);
     }
 
     a{
@@ -63,13 +64,87 @@ li a {
     color: grey;
     }
 
+
 }
 
 .listing:hover{
-    background-color: rgb(47, 65, 22);
+    background-color: rgb(44, 51, 35);
 }
 
 .listing_image{
     height: 160px;
     width: 180px;
 }
+
+.entire_body{
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+
+    .body_item_left{
+        h3{
+            text-align: center;
+            color: royalblue;
+            border-bottom: 1px double blue;
+        }
+    }
+
+    img{
+        width: 100%;
+        height: auto;
+        flex : 0 2 auto;
+    }
+
+    .Comment{
+        border-bottom: 1px solid grey;
+    }
+
+    .description{
+        padding : 20px;
+        border-bottom: 2px solid ;
+    }
+
+    .body_comments_right{
+            padding : 20px;
+            border-left: 1px solid rgb(47, 47, 94); 
+        }
+
+    @media (max-width:1450px) {
+    }
+
+    .comment_btn{
+        border-radius: 16px;;
+    }
+}
+
+.form div input,
+.form_description textarea{
+    border : none;
+    width: 35%;
+    background-color: gray;
+}
+
+
+img{
+    width: 180px;
+    height: 120px;
+}
+
+
+.watchlist_item {
+    h3{
+        text-align: center;
+    }
+
+    border : 1px solid rgb(21, 21, 44);
+
+    display: flex;
+    flex-direction: column;
+
+    background-color: gray;
+    img{
+        align-self: center;
+    }
+}
+
+///

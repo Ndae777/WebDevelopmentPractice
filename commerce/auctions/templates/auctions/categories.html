@@ -4,6 +4,7 @@
 
 {% block body %}
 
+</div>
 {% for auction in auctions_list %}
 <a href="{% url 'category_listings' auction %}"><h3>{{ auction }}</h3></a>
 <br>

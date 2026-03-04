@@ -7,13 +7,12 @@
 
 <form class="form" action="{% url 'create_listing' %}" method="post"> <!-- when click the user is gonna be directed to listing/id_number  -->
     {% csrf_token %}
-    <div class="form_title"> Title : {{form.title}}</div>
-    <div class="form_starting_bid"> Starting bid : {{ form.starting_bid }}</div>
-    <div class="form_image_url">Image url(optional): {{ form.image_url }}</div>
-    <div class="form_category">Category : {{ form.category }} </div>
-    <div class="form_description">Description :<br> {{ form.description }}</div>
-    <div class="form_active">Active : {{ form.active }}</div>
-    <input class="btn" type="submit">
+    Title : <div class="form_title">{{form.title}}</div>
+    Starting bid :<div class="form_starting_bid"> {{ form.starting_bid }}</div>
+    Image url(optional):<div class="form_image_url"> {{ form.image_url }}</div>
+    Category : <div class="form_category">{{ form.category }} </div>
+    Description :<br> <div class="form_description">{{ form.description }}</div>
+    <input class="btn btn-primary" type="submit">
 </form>
 
 {% endblock %}
