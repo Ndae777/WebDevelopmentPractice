@@ -1,18 +1,18 @@
-body{
-    background-color: rgb(39, 39, 39);
+body {
+    background-color: rgb(53, 52, 52);
     color: white;
 }
 
-.top_navigation{
+.top_navigation {
     border-bottom: 1px solid royalblue;
     display: flex;
-    padding : 12px;
+    padding: 12px;
     justify-content: space-between;
     flex-wrap: wrap;
     padding: 16px;
     margin-bottom: 16px;
     align-items: end;
-    background-color:  rgb(32, 32, 32);
+    background-color: rgb(32, 32, 32);
     position: sticky;
     top: 0;
     z-index: 1000;
@@ -23,128 +23,175 @@ li a {
     color: rgb(252, 249, 249);
 }
 
-.nav{
+.nav {
     display: flex;
     gap: 20px;
     flex-wrap: wrap;
 
-    li{
-        flex : 1 1 auto;
+    li {
+        flex: 1 1 auto;
 
     }
 }
 
-.listing_container{
+.listing_container {
     display: flex;
     flex-wrap: wrap;
 }
 
 .listing {
-    border: 1px solid greenyellow ;
+    border: 1px solid rgb(1, 63, 247);
     border-radius: 18px;
     margin: 16px;
     display: flex;
     flex-direction: column;
-    align-items:center;
-    width: 400px;
+    align-items: center;
+    width: 350px;
     height: 300px;
-    background-color: rgb(47, 65, 22);
+    background-color: rgb(49, 68, 122);
 
-    h3{
+    h3 {
         text-align: center;
         border-bottom: 1px dashed rgb(196, 233, 142);
     }
 
-    a{
+    a {
         text-decoration: none;
         color: white;
     }
 
-    a:hover{
-    color: grey;
+    a:hover {
+        color: grey;
     }
 
 
 }
 
-.listing:hover{
-    background-color: rgb(44, 51, 35);
+.listing:hover {
+    background-color: rgb(14, 41, 116);
 }
 
-.listing_image{
+.listing_image {
     height: 160px;
-    width: 180px;
+    width: 100%;
+
 }
 
-.entire_body{
+.entire_body {
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
 
-    .body_item_left{
-        h3{
+    .body_item_left {
+        h3 {
             text-align: center;
             color: royalblue;
             border-bottom: 1px double blue;
         }
     }
 
-    img{
+    img {
         width: 100%;
         height: auto;
-        flex : 0 2 auto;
+        flex: 0 2 auto;
     }
 
-    .Comment{
+    .Comment {
         border-bottom: 1px solid grey;
     }
 
-    .description{
-        padding : 20px;
-        border-bottom: 2px solid ;
+    .description {
+        padding: 20px;
+        border-bottom: 2px solid;
     }
 
-    .body_comments_right{
-            padding : 20px;
-            border-left: 1px solid rgb(47, 47, 94); 
-        }
-
-    @media (max-width:1450px) {
+    .body_comments_right {
+        padding: 20px;
+        border-left: 1px solid rgb(47, 47, 94);
     }
 
-    .comment_btn{
-        border-radius: 16px;;
+    @media (max-width:1450px) {}
+
+    .comment_btn {
+        border-radius: 16px;
+        ;
     }
 }
 
 .form div input,
-.form_description textarea{
-    border : none;
+.form_description textarea {
+    border: none;
     width: 35%;
     background-color: gray;
+    color: white;
+}
+
+.form_active{
+    gap: 0px;
+    width :120px;
+    display: flex;
+    margin-bottom:8px ;
 }
 
 
-img{
+img {
     width: 180px;
     height: 120px;
 }
 
 
 .watchlist_item {
-    h3{
+    h3 {
         text-align: center;
     }
 
-    border : 1px solid rgb(21, 21, 44);
 
     display: flex;
     flex-direction: column;
 
     background-color: gray;
-    img{
+
+    img {
         align-self: center;
+        width: 460px;
+        height: 300px;
     }
+    
 }
 
 ///
+.categories ,.watchlist_item {
+    display: flex;
+    background-color: rgb(32, 32, 32);
+    justify-content: center;
+    padding : 10px;
+}
+
+.category_page_item{
+    display: flex;
+    background-color: rgb(32, 32, 32);
+    padding : 10px;
+    gap: 20%;
+    align-items: center;
+    margin: 20px;
+    flex-wrap: wrap;
+    h3{
+        border-bottom: 1px dashed royalblue;
+        width: 150px;
+    }
+
+    img{
+        height: 100%;
+    }
+}
+
+.categories_container , .category_page{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-control{
+    width: 50%;
+}

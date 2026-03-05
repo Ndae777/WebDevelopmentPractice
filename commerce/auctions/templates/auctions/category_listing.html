@@ -2,14 +2,18 @@
 
 {% block title %} Selcted Category {% endblock %}
 
+
 {% block body %}
+<h2 class="category_title">Active Listings in this category: </h2>
 <div class="category_page">
-    <h2 class="category_title">Currently Active Listings in this category</h2>
     {% for listing in listings %}
+    <div class="category_page_item">
     {% if listing.active %}
-    <a class="" href="{% url 'listing_page' listing.id %}"><h3>{{ listing.item_name }}</h3></a>
+    <a class="" href="{% url 'listing_page' listing.id %}"><h3>{{ listing.item_name.capitalize }}</h3></a>
+    <img src="{{listing.image_url}}" alt="{{listing.item_name}}">
     {% endif %}
+    </div>
+    {% endfor %}
 </div>
-{% endfor %}
 
 {% endblock %}

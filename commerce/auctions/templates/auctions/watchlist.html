@@ -10,12 +10,12 @@
 {% for watchlist in user_watchlist %}
 <div class="watchlist_item">
     <h3><a href="{% url 'listing_page' watchlist.item.id %}"> 
-    {{ watchlist.item.item_name }}
+    {{ watchlist.item.item_name.capitalize }}
     </a></h3>
+
     <img src="{{ watchlist.item.image_url }}" alt="{{ watchlist.item.item_name }}">
-    <br>
     {% empty %}
-    <h3>No added items to watchlist.</h3>
+    <h3 style="color: darkkhaki;">No added items to watchlist.</h3>
 </div>
 {% endfor %}
 
