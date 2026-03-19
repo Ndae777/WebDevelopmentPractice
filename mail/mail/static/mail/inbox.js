@@ -1,11 +1,12 @@
 document.addEventListener('DOMContentLoaded', function () {
 
   // Use buttons to toggle between views
-  document.querySelector('#inbox').addEventListener('click', () => { load_mailbox('Inbox'); mailbox('inbox') });
-  document.querySelector('#sent').addEventListener('click', () => { load_mailbox('sent'); mailbox('sent') });
-  document.querySelector('#archived').addEventListener('click', () => { load_mailbox('archive'); mailbox('archive') });
+  document.querySelector('#inbox').addEventListener('click', () =>  load_mailbox('inbox'));
+  document.querySelector('#sent').addEventListener('click', () =>  load_mailbox('sent'));
+  document.querySelector('#archived').addEventListener('click', () =>  load_mailbox('archive'));
   document.querySelector('#compose').addEventListener('click', compose_email);
   document.querySelector("#compose-form").onsubmit = send_mail;
+  
 
   // By default, load the inbox
   load_mailbox('inbox');
@@ -31,7 +32,9 @@ function load_mailbox(mailbox) {
 
   // Show the mailbox name
   document.querySelector('#emails-view').innerHTML = `<h3>${mailbox.charAt(0).toUpperCase() + mailbox.slice(1)}</h3>`;
-
+  
+  //this function answers the second specification.
+  mailbox_view(mailbox)
 }
 
 function send_mail() {
@@ -51,20 +54,17 @@ function send_mail() {
 }
 
 
-function mailbox(mailbox_name) {
-
+function mailbox_view(mailbox_name) {
 
   fetch(`/emails/${mailbox_name}`)
     .then(response => response.json())
     .then(mail => {
-
       //console.log("Latest email in this mailbox: \n", mail[0]) //checking the data
 
       let mail_count = 0;
-
       mail.forEach(
         () => {
-          
+
           //creating and styling div
           let div = document.createElement('div');
           div.innerHTML = `<div><b>${mail[mail_count]['sender']}</b> ${mail[mail_count]['subject']}</div> <div style='color:grey;'>${mail[mail_count]['timestamp']}</div>`
@@ -72,12 +72,52 @@ function mailbox(mailbox_name) {
           div.style.padding = "10px";
           div.style.display = "flex";
           div.style.justifyContent = "space-between";
+          if(mail[mail_count]['read']){
+            div.style.backgroundColor = "lightgrey";
+          }
           document.querySelector("#emails-view").append(div)
+
+          let id = mail[mail_count]['id']
+          //View email
+          div.onclick = () => {
+            view_email(id);
+            // Once clicked read turns to true.
+            fetch(`/emails/${id}`, {
+              method: 'PUT',
+              body: JSON.stringify({
+                read: true
+              })
+            })
+          }
 
           mail_count++;
         }
       )
 
-
+      return false;
     })
+}
+
+function view_email(mail_id){
+
+  fetch(`/emails/${mail_id}`)
+  .then(response => response.json())
+  .then(mail =>
+  {
+    let div = document.createElement("div");
+    div.innerHTML = `
+    <b>From:</b> ${mail['sender']}</br>
+    <b>To</b>: ${mail['recipients']}</br>
+    <b>Subject</b>: ${mail['recipients']}</br>
+    <b>Timestamp</b>: ${mail['timestamp']}</br>
+    <button class="btn btn-sm btn-outline-primary" id="reply">Reply</button>
+    <hr>
+    ${mail['body']}`
+
+    document.querySelector("#emails-view").innerHTML = "";
+    document.querySelector("#emails-view").append(div);
+
+  }
+  )
+
 }
