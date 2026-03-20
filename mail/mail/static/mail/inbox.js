@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', function () {
   document.querySelector("#compose-form").onsubmit = send_mail;
 
 
+
   // By default, load the inbox
   load_mailbox('inbox');
 });
@@ -22,6 +23,7 @@ function compose_email() {
   document.querySelector('#compose-recipients').value = '';
   document.querySelector('#compose-subject').value = '';
   document.querySelector('#compose-body').value = '';
+
 }
 
 function load_mailbox(mailbox) {
@@ -50,6 +52,7 @@ function send_mail() {
       console.log(email_composed);
       load_mailbox('sent');
     })
+
   return false;
 }
 
@@ -88,9 +91,7 @@ function mailbox_view(mailbox_name) {
               body: JSON.stringify({
                 read: true
               })
-            });
-
-
+            })
           }
 
           mail_count++;
@@ -111,7 +112,7 @@ function view_email(mail_id, mailbox_name) {
       div.innerHTML = `
     <b>From:</b> ${mail['sender']}</br>
     <b>To</b>: ${mail['recipients']}</br>
-    <b>Subject</b>: ${mail['recipients']}</br>
+    <b>Subject</b>: ${mail['subject']}</br>
     <b>Timestamp</b>: ${mail['timestamp']}</br>
     <button class="btn btn-sm btn-outline-primary" id="reply">Reply</button>
     <hr>
@@ -123,6 +124,19 @@ function view_email(mail_id, mailbox_name) {
       //show the archive option when viewing the appropriate mail
       archive(mailbox_name, mail_id);
 
+      //reply logic
+      document.querySelector("#reply").onclick = () => {
+        compose_email();
+
+        document.querySelector('#compose-recipients').value = mail['sender'];
+        if (mail['subject'].slice(0, 4) == "Re: ") {
+          document.querySelector("#compose-subject").value = mail['subject'];
+        } else {
+          document.querySelector("#compose-subject").value = `Re: ${mail['subject']}`;
+        }
+
+        document.querySelector('#compose-body').value =`On ${mail['timestamp']} ${mail['sende']} wrote:\n\n${mail['body']}\n\n`;
+      }
     }
     )
 
@@ -130,7 +144,8 @@ function view_email(mail_id, mailbox_name) {
 
 function archive(mailbox_name, mail_id) {
 
-  //the archive button option should only show in inbox and archive 
+
+  //the function should only run under if appropriate mailbox else it will return a console log 
   if (mailbox_name === "inbox" || mailbox_name === "archive") {
 
     const archive_button = document.createElement("button");
@@ -177,3 +192,4 @@ function archive(mailbox_name, mail_id) {
   } else { console.log("This mailbox does not need archive option") }
 
 }
+
