@@ -1,12 +1,12 @@
 document.addEventListener('DOMContentLoaded', function () {
 
   // Use buttons to toggle between views
-  document.querySelector('#inbox').addEventListener('click', () =>  load_mailbox('inbox'));
-  document.querySelector('#sent').addEventListener('click', () =>  load_mailbox('sent'));
-  document.querySelector('#archived').addEventListener('click', () =>  load_mailbox('archive'));
+  document.querySelector('#inbox').addEventListener('click', () => load_mailbox('inbox'));
+  document.querySelector('#sent').addEventListener('click', () => load_mailbox('sent'));
+  document.querySelector('#archived').addEventListener('click', () => load_mailbox('archive'));
   document.querySelector('#compose').addEventListener('click', compose_email);
   document.querySelector("#compose-form").onsubmit = send_mail;
-  
+
 
   // By default, load the inbox
   load_mailbox('inbox');
@@ -32,7 +32,7 @@ function load_mailbox(mailbox) {
 
   // Show the mailbox name
   document.querySelector('#emails-view').innerHTML = `<h3>${mailbox.charAt(0).toUpperCase() + mailbox.slice(1)}</h3>`;
-  
+
   //this function answers the second specification.
   mailbox_view(mailbox)
 }
@@ -72,22 +72,25 @@ function mailbox_view(mailbox_name) {
           div.style.padding = "10px";
           div.style.display = "flex";
           div.style.justifyContent = "space-between";
-          if(mail[mail_count]['read']){
+          if (mail[mail_count]['read']) {
             div.style.backgroundColor = "lightgrey";
           }
           document.querySelector("#emails-view").append(div)
 
           let id = mail[mail_count]['id']
+
           //View email
           div.onclick = () => {
-            view_email(id);
+            view_email(id, mailbox_name);
             // Once clicked read turns to true.
             fetch(`/emails/${id}`, {
               method: 'PUT',
               body: JSON.stringify({
                 read: true
               })
-            })
+            });
+
+
           }
 
           mail_count++;
@@ -98,14 +101,14 @@ function mailbox_view(mailbox_name) {
     })
 }
 
-function view_email(mail_id){
+function view_email(mail_id, mailbox_name) {
 
+  //show the email in this format
   fetch(`/emails/${mail_id}`)
-  .then(response => response.json())
-  .then(mail =>
-  {
-    let div = document.createElement("div");
-    div.innerHTML = `
+    .then(response => response.json())
+    .then(mail => {
+      let div = document.createElement("div");
+      div.innerHTML = `
     <b>From:</b> ${mail['sender']}</br>
     <b>To</b>: ${mail['recipients']}</br>
     <b>Subject</b>: ${mail['recipients']}</br>
@@ -114,10 +117,63 @@ function view_email(mail_id){
     <hr>
     ${mail['body']}`
 
-    document.querySelector("#emails-view").innerHTML = "";
-    document.querySelector("#emails-view").append(div);
+      document.querySelector("#emails-view").innerHTML = "";
+      document.querySelector("#emails-view").append(div);
 
-  }
-  )
+      //show the archive option when viewing the appropriate mail
+      archive(mailbox_name, mail_id);
+
+    }
+    )
+
+}
+
+function archive(mailbox_name, mail_id) {
+
+  //the archive button option should only show in inbox and archive 
+  if (mailbox_name === "inbox" || mailbox_name === "archive") {
+
+    const archive_button = document.createElement("button");
+
+    //change the name of the archive button depending on context
+    if (mailbox_name === "inbox") {
+      archive_button.innerHTML = "Archive";
+    } else { archive_button.innerHTML = "Unarchive"; }
+
+    archive_button.className = "btn btn-sm btn-outline-primary"; //inherit class name for styling 
+    document.querySelector("#emails-view").append(archive_button);
+
+    archive_button.onclick = () => {
+
+      if (mailbox_name === "inbox") {
+
+        //archive the mail
+        fetch(`/emails/${mail_id}`, {
+          method: 'PUT',
+          body: JSON.stringify({
+            archived: true
+          })
+        })
+          .then(() => {
+            load_mailbox('inbox')
+          })
+
+      } else {
+
+        //should Unarchive
+        fetch(`/emails/${mail_id}`, {
+          method: 'PUT',
+          body: JSON.stringify({
+            archived: false
+          })
+        })
+          .then(() => {
+            load_mailbox('inbox')
+          })
+      }
+
+
+    }
+  } else { console.log("This mailbox does not need archive option") }
 
 }
