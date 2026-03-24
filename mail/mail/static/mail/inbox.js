@@ -148,12 +148,12 @@ function view_email(mail_id, mailbox_name) {
 
         //body pre-fill
         let previousMailbodies = [];
-        let mail_header_info = `\nOn ${mail['timestamp']} ${mail['sender']} wrote:\n`;
-        previousMailbodies.push(mail_header_info);
+        let mail_starter = `On ${mail['timestamp']} ${mail['sender']} wrote:\n`;
+        previousMailbodies.push(mail_starter);
         previousMailbodies.push(mail['body']);
 
         //what the user sees
-        document.querySelector('#compose-body').value = `\n${mail_header_info}${mail['body']}`;
+        document.querySelector('#compose-body').value = `${mail_starter}${mail['body']}\n`;
 
         not_reply = false;
 
@@ -173,7 +173,7 @@ function view_email(mail_id, mailbox_name) {
             body: JSON.stringify({
               recipients: document.querySelector("#compose-recipients").value,
               subject: document.querySelector("#compose-subject").value,
-              body: body_to_save, //we save only the new body without previous strings here
+              body: body_to_save, // saves only the new body without previous strings here
             })
           })
           .then(() => load_mailbox('sent'));
