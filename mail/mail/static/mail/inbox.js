@@ -5,9 +5,17 @@ document.addEventListener('DOMContentLoaded', function () {
   document.querySelector('#sent').addEventListener('click', () => load_mailbox('sent'));
   document.querySelector('#archived').addEventListener('click', () => load_mailbox('archive'));
   document.querySelector('#compose').addEventListener('click', compose_email);
-  document.querySelector("#compose-form").onsubmit = send_mail;
 
+  let not_reply = true // i will use this bool to determine if the submit is for a reply message
 
+  document.querySelector("#compose-form").onsubmit = () => {
+    if (not_reply) {
+      send_mail();
+    } else {
+      // The expected else logic will be handled by the trigger of not_reply changing from true to false
+    }
+    return false;
+  };
 
   // By default, load the inbox
   load_mailbox('inbox');
@@ -128,14 +136,50 @@ function view_email(mail_id, mailbox_name) {
       document.querySelector("#reply").onclick = () => {
         compose_email();
 
+        //sender pre-fill
         document.querySelector('#compose-recipients').value = mail['sender'];
+
+        //subject pre-fill
         if (mail['subject'].slice(0, 4) == "Re: ") {
           document.querySelector("#compose-subject").value = mail['subject'];
         } else {
           document.querySelector("#compose-subject").value = `Re: ${mail['subject']}`;
         }
 
-        document.querySelector('#compose-body').value =`On ${mail['timestamp']} ${mail['sende']} wrote:\n\n${mail['body']}\n\n`;
+        //body pre-fill
+        let previousMailbodies = [];
+        let mail_header_info = `\nOn ${mail['timestamp']} ${mail['sender']} wrote:\n`;
+        previousMailbodies.push(mail_header_info);
+        previousMailbodies.push(mail['body']);
+
+        //what the user sees
+        document.querySelector('#compose-body').value = `\n${mail_header_info}${mail['body']}`;
+
+        not_reply = false;
+
+        // Re-define onsubmit for reply
+        document.querySelector("#compose-form").onsubmit = () => {
+
+          let full_text = document.querySelector("#compose-body").value;
+          let body_to_save = full_text;
+
+          // delete prev mail string 
+          previousMailbodies.forEach((mailbod) => {
+            body_to_save = body_to_save.replace(mailbod, '');
+          });
+
+          fetch('/emails', {
+            method: 'POST',
+            body: JSON.stringify({
+              recipients: document.querySelector("#compose-recipients").value,
+              subject: document.querySelector("#compose-subject").value,
+              body: body_to_save, //we save only the new body without previous strings here
+            })
+          })
+          .then(() => load_mailbox('sent'));
+
+          return false;
+        }
       }
     }
     )
